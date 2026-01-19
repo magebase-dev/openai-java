@@ -1,4 +1,4 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +12,7 @@ public class OpenAiServiceTest {
     }
 
     @Test
-    public void testWorksWithoutSkewKey() {
+    public void testWorksWithoutlangmeshKey() {
         OpenAiService service = new OpenAiService("test-key");
         assertNotNull(service);
     }

@@ -1,4 +1,4 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * SKEW Telemetry Client
+ * langmesh Telemetry Client
  * 
  * Async, non-blocking telemetry submission
  */
@@ -20,14 +20,14 @@ public class TelemetryClient {
     private static final String SDK_LANGUAGE = "java";
     
     private final String apiKey;
-    private final SkewConfig.TelemetryConfig config;
+    private final langmeshConfig.TelemetryConfig config;
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final List<TelemetryPayload> buffer;
     private final ScheduledExecutorService scheduler;
     private volatile boolean paused = false;
 
-    public TelemetryClient(String apiKey, SkewConfig.TelemetryConfig config) {
+    public TelemetryClient(String apiKey, langmeshConfig.TelemetryConfig config) {
         this.apiKey = apiKey;
         this.config = config;
         this.httpClient = new OkHttpClient.Builder()
@@ -38,7 +38,7 @@ public class TelemetryClient {
         this.objectMapper = new ObjectMapper();
         this.buffer = Collections.synchronizedList(new ArrayList<>());
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread t = new Thread(r, "skew-telemetry");
+            Thread t = new Thread(r, "langmesh-telemetry");
             t.setDaemon(true);
             return t;
         });
@@ -112,8 +112,8 @@ public class TelemetryClient {
                 .url(config.getEndpoint())
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer " + apiKey)
-                .addHeader("X-SKEW-SDK-Version", SDK_VERSION)
-                .addHeader("X-SKEW-SDK-Language", SDK_LANGUAGE)
+                .addHeader("X-langmesh-SDK-Version", SDK_VERSION)
+                .addHeader("X-langmesh-SDK-Language", SDK_LANGUAGE)
                 .post(RequestBody.create(json, MediaType.parse("application/json")))
                 .build();
         

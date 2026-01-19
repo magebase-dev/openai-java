@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ai.skew</groupId>
+    <groupId>ai.langmesh</groupId>
     <artifactId>openai-sdk</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>SKEW OpenAI SDK</name>
-    <description>SKEW SDK for OpenAI - Telemetry and cost optimization</description>
-    <url>https://skew.ai</url>
+    <name>langmesh OpenAI SDK</name>
+    <description>langmesh SDK for OpenAI - Telemetry and cost optimization</description>
+    <url>https://langmesh.ai</url>
 
     <licenses>
         <license>
@@ -22,16 +22,16 @@
 
     <developers>
         <developer>
-            <id>skew</id>
-            <name>SKEW Team</name>
-            <email>support@skew.ai</email>
+            <id>langmesh</id>
+            <name>langmesh Team</name>
+            <email>support@langmesh.ai</email>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/skew-ai/skew-sdks.git</connection>
-        <developerConnection>scm:git:ssh://github.com:skew-ai/skew-sdks.git</developerConnection>
-        <url>https://github.com/skew-ai/skew-sdks/tree/main/sdks/java/openai</url>
+        <connection>scm:git:git://github.com/langmesh-ai/langmesh-sdks.git</connection>
+        <developerConnection>scm:git:ssh://github.com:langmesh-ai/langmesh-sdks.git</developerConnection>
+        <url>https://github.com/langmesh-ai/langmesh-sdks/tree/main/sdks/java/openai</url>
     </scm>
 
     <properties>

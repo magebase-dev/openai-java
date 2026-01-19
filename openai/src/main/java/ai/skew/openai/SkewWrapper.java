@@ -1,11 +1,11 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 import java.lang.reflect.*;
 import java.time.Instant;
 import java.util.*;
 
 /**
- * SKEW OpenAI Wrapper
+ * langmesh OpenAI Wrapper
  * 
  * Wraps the OpenAI client with telemetry and optional proxy support.
  * 
@@ -15,18 +15,18 @@ import java.util.*;
  * - SDK errors never break user code
  * - Proxy only activates when explicitly enabled
  */
-public class SkewWrapper {
+public class langmeshWrapper {
     
     /**
-     * Wrap an OpenAI service with SKEW telemetry and optional proxy
+     * Wrap an OpenAI service with langmesh telemetry and optional proxy
      * 
      * @param service The OpenAI service to wrap
-     * @param config SKEW configuration
+     * @param config langmesh configuration
      * @param <T> The service type
      * @return Wrapped service with telemetry
      */
     @SuppressWarnings("unchecked")
-    public static <T> T wrap(T service, SkewConfig config) {
+    public static <T> T wrap(T service, langmeshConfig config) {
         TelemetryClient telemetryClient = new TelemetryClient(
                 config.getApiKey(),
                 config.getTelemetry()
@@ -37,7 +37,7 @@ public class SkewWrapper {
         return (T) Proxy.newProxyInstance(
                 service.getClass().getClassLoader(),
                 service.getClass().getInterfaces(),
-                new SkewInvocationHandler<>(service, config, telemetryClient, proxyActive)
+                new langmeshInvocationHandler<>(service, config, telemetryClient, proxyActive)
         );
     }
 
@@ -45,16 +45,16 @@ public class SkewWrapper {
      * Convenience method to wrap with just API key
      */
     public static <T> T wrap(T service, String apiKey) {
-        return wrap(service, SkewConfig.builder(apiKey).build());
+        return wrap(service, langmeshConfig.builder(apiKey).build());
     }
 
-    private static class SkewInvocationHandler<T> implements InvocationHandler {
+    private static class langmeshInvocationHandler<T> implements InvocationHandler {
         private final T target;
-        private final SkewConfig config;
+        private final langmeshConfig config;
         private final TelemetryClient telemetryClient;
         private final boolean proxyActive;
 
-        SkewInvocationHandler(T target, SkewConfig config, TelemetryClient telemetryClient, boolean proxyActive) {
+        langmeshInvocationHandler(T target, langmeshConfig config, TelemetryClient telemetryClient, boolean proxyActive) {
             this.target = target;
             this.config = config;
             this.telemetryClient = telemetryClient;
@@ -122,7 +122,7 @@ public class SkewWrapper {
                 } catch (Exception e) {
                     // Silent drop
                 }
-            }, "skew-telemetry-send").start();
+            }, "langmesh-telemetry-send").start();
         }
 
         private void sendTelemetry(

@@ -1,4 +1,4 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 import org.junit.jupiter.api.*;
 import org.mockito.*;
@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * SKEW SDK Tests
+ * langmesh SDK Tests
  */
-class SkewWrapperTest {
+class langmeshWrapperTest {
 
     @Test
     void testGenerateRequestId() {
@@ -48,8 +48,8 @@ class SkewWrapperTest {
     }
 
     @Test
-    void testSkewConfigBuilder() {
-        SkewConfig config = SkewConfig.builder("sk_test_123")
+    void testlangmeshConfigBuilder() {
+        langmeshConfig config = langmeshConfig.builder("sk_test_123")
                 .orgId("org_test")
                 .projectId("project_test")
                 .build();
@@ -63,7 +63,7 @@ class SkewWrapperTest {
 
     @Test
     void testTelemetryConfigDefaults() {
-        SkewConfig.TelemetryConfig config = SkewConfig.TelemetryConfig.defaults();
+        langmeshConfig.TelemetryConfig config = langmeshConfig.TelemetryConfig.defaults();
         
         assertTrue(config.isEnabled());
         assertFalse(config.isIncludePrompts());
@@ -74,11 +74,11 @@ class SkewWrapperTest {
 
     @Test
     void testProxyConfigDefaults() {
-        SkewConfig.ProxyConfig config = SkewConfig.ProxyConfig.defaults();
+        langmeshConfig.ProxyConfig config = langmeshConfig.ProxyConfig.defaults();
         
         assertFalse(config.isEnabled());
         assertTrue(config.isFailOpen());
-        assertEquals("https://api.skew.ai/v1/openai", config.getBaseUrl());
+        assertEquals("https://api.langmesh.ai/v1/openai", config.getBaseUrl());
         assertEquals(30000, config.getTimeoutMs());
     }
 
@@ -105,7 +105,7 @@ class SkewWrapperTest {
 
     @Test
     void testTelemetryClientPauseResume() {
-        SkewConfig.TelemetryConfig config = SkewConfig.TelemetryConfig.builder()
+        langmeshConfig.TelemetryConfig config = langmeshConfig.TelemetryConfig.builder()
                 .enabled(true)
                 .build();
         
@@ -120,7 +120,7 @@ class SkewWrapperTest {
 
     @Test
     void testTelemetryClientSampling() {
-        SkewConfig.TelemetryConfig config = SkewConfig.TelemetryConfig.builder()
+        langmeshConfig.TelemetryConfig config = langmeshConfig.TelemetryConfig.builder()
                 .enabled(true)
                 .sampleRate(0.0) // 0% sampling
                 .build();
@@ -149,16 +149,16 @@ class SkewWrapperTest {
 
     @Test
     void testProxyModeConfiguration() {
-        SkewConfig configNoProxy = SkewConfig.builder("sk_test_123")
-                .proxy(SkewConfig.ProxyConfig.builder()
+        langmeshConfig configNoProxy = langmeshConfig.builder("sk_test_123")
+                .proxy(langmeshConfig.ProxyConfig.builder()
                         .enabled(false)
                         .build())
                 .build();
         
         assertFalse(configNoProxy.getProxy().isEnabled());
         
-        SkewConfig configWithProxy = SkewConfig.builder("sk_test_123")
-                .proxy(SkewConfig.ProxyConfig.builder()
+        langmeshConfig configWithProxy = langmeshConfig.builder("sk_test_123")
+                .proxy(langmeshConfig.ProxyConfig.builder()
                         .enabled(true)
                         .baseUrl("https://custom.proxy.ai")
                         .build())
@@ -179,11 +179,11 @@ class SkewWrapperTest {
         MockOpenAIService mockService = mock(MockOpenAIService.class);
         when(mockService.createChatCompletion(any())).thenReturn(new Object());
         
-        SkewConfig config = SkewConfig.builder("sk_test_123")
+        langmeshConfig config = langmeshConfig.builder("sk_test_123")
                 .orgId("org_test")
                 .build();
         
-        MockOpenAIService wrappedService = SkewWrapper.wrap(mockService, config);
+        MockOpenAIService wrappedService = langmeshWrapper.wrap(mockService, config);
         
         // Call should work
         assertDoesNotThrow(() -> wrappedService.createChatCompletion(new Object()));
@@ -197,8 +197,8 @@ class SkewWrapperTest {
         MockOpenAIService mockService = mock(MockOpenAIService.class);
         when(mockService.createChatCompletion(any())).thenThrow(new RuntimeException("Rate limit exceeded"));
         
-        SkewConfig config = SkewConfig.builder("sk_test_123").build();
-        MockOpenAIService wrappedService = SkewWrapper.wrap(mockService, config);
+        langmeshConfig config = langmeshConfig.builder("sk_test_123").build();
+        MockOpenAIService wrappedService = langmeshWrapper.wrap(mockService, config);
         
         // Error should pass through
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {

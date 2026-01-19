@@ -1,16 +1,16 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 /**
- * SKEW SDK Configuration
+ * langmesh SDK Configuration
  */
-public class SkewConfig {
+public class langmeshConfig {
     private final String apiKey;
     private final String orgId;
     private final String projectId;
     private final TelemetryConfig telemetry;
     private final ProxyConfig proxy;
 
-    private SkewConfig(Builder builder) {
+    private langmeshConfig(Builder builder) {
         this.apiKey = builder.apiKey;
         this.orgId = builder.orgId;
         this.projectId = builder.projectId;
@@ -59,8 +59,8 @@ public class SkewConfig {
             return this;
         }
 
-        public SkewConfig build() {
-            return new SkewConfig(this);
+        public langmeshConfig build() {
+            return new langmeshConfig(this);
         }
     }
 
@@ -86,7 +86,7 @@ public class SkewConfig {
         }
 
         public static TelemetryConfig defaults() {
-            return new TelemetryConfig(true, false, 1.0, 10, 5000, "https://api.skew.ai/v1/telemetry");
+            return new TelemetryConfig(true, false, 1.0, 10, 5000, "https://api.langmesh.ai/v1/telemetry");
         }
 
         public boolean isEnabled() { return enabled; }
@@ -104,7 +104,7 @@ public class SkewConfig {
             private double sampleRate = 1.0;
             private int batchSize = 10;
             private long flushIntervalMs = 5000;
-            private String endpoint = "https://api.skew.ai/v1/telemetry";
+            private String endpoint = "https://api.langmesh.ai/v1/telemetry";
 
             public Builder enabled(boolean enabled) { this.enabled = enabled; return this; }
             public Builder includePrompts(boolean includePrompts) { this.includePrompts = includePrompts; return this; }
@@ -136,7 +136,7 @@ public class SkewConfig {
         }
 
         public static ProxyConfig defaults() {
-            return new ProxyConfig(false, true, "https://api.skew.ai/v1/openai", 30000);
+            return new ProxyConfig(false, true, "https://api.langmesh.ai/v1/openai", 30000);
         }
 
         public boolean isEnabled() { return enabled; }
@@ -149,7 +149,7 @@ public class SkewConfig {
         public static class Builder {
             private boolean enabled = false;
             private boolean failOpen = true;
-            private String baseUrl = "https://api.skew.ai/v1/openai";
+            private String baseUrl = "https://api.langmesh.ai/v1/openai";
             private long timeoutMs = 30000;
 
             public Builder enabled(boolean enabled) { this.enabled = enabled; return this; }

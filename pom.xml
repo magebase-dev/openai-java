@@ -4,14 +4,14 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ai.skew</groupId>
+    <groupId>ai.langmesh</groupId>
     <artifactId>openai</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>SKEW OpenAI</name>
+    <name>langmesh OpenAI</name>
     <description>Drop-in replacement for OpenAI Java client with telemetry and cost optimization</description>
-    <url>https://skew.ai</url>
+    <url>https://langmesh.ai</url>
 
     <licenses>
         <license>
@@ -22,15 +22,15 @@
 
     <developers>
         <developer>
-            <name>SKEW Team</name>
-            <email>support@skew.ai</email>
-            <organization>SKEW</organization>
-            <organizationUrl>https://skew.ai</organizationUrl>
+            <name>langmesh Team</name>
+            <email>support@langmesh.ai</email>
+            <organization>langmesh</organization>
+            <organizationUrl>https://langmesh.ai</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <url>https://github.com/skew-ai/openai-java</url>
+        <url>https://github.com/langmesh-ai/openai-java</url>
     </scm>
 
     <properties>

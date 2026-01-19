@@ -1,4 +1,4 @@
-package ai.skew.openai;
+package ai.langmesh.openai;
 
 import com.theokanning.openai.service.OpenAiService;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * SKEW-wrapped OpenAI client - Drop-in replacement
+ * langmesh-wrapped OpenAI client - Drop-in replacement
  * 
  * Usage:
  * <pre>
@@ -20,20 +20,20 @@ import java.util.concurrent.*;
  * import com.theokanning.openai.service.OpenAiService;
  * 
  * // After
- * import ai.skew.openai.OpenAiService;
+ * import ai.langmesh.openai.OpenAiService;
  * 
  * OpenAiService service = new OpenAiService(apiKey);
  * // Works exactly the same!
  * </pre>
  */
 public class OpenAiService extends com.theokanning.openai.service.OpenAiService {
-    private static final String SKEW_API_KEY = System.getenv().getOrDefault("SKEW_API_KEY", "");
-    private static final String SKEW_TELEMETRY_ENDPOINT = System.getenv()
-            .getOrDefault("SKEW_TELEMETRY_ENDPOINT", "https://api.skew.ai/v1/telemetry");
-    private static final boolean SKEW_PROXY_ENABLED = "true"
-            .equalsIgnoreCase(System.getenv().getOrDefault("SKEW_PROXY_ENABLED", "false"));
-    private static final String SKEW_BASE_URL = System.getenv()
-            .getOrDefault("SKEW_BASE_URL", "https://api.skew.ai/v1/openai");
+    private static final String langmesh_API_KEY = System.getenv().getOrDefault("langmesh_API_KEY", "");
+    private static final String langmesh_TELEMETRY_ENDPOINT = System.getenv()
+            .getOrDefault("langmesh_TELEMETRY_ENDPOINT", "https://api.langmesh.ai/v1/telemetry");
+    private static final boolean langmesh_PROXY_ENABLED = "true"
+            .equalsIgnoreCase(System.getenv().getOrDefault("langmesh_PROXY_ENABLED", "false"));
+    private static final String langmesh_BASE_URL = System.getenv()
+            .getOrDefault("langmesh_BASE_URL", "https://api.langmesh.ai/v1/openai");
 
     private final OkHttpClient httpClient;
     private final Gson gson;
@@ -56,7 +56,7 @@ public class OpenAiService extends com.theokanning.openai.service.OpenAiService 
         
         this.gson = new Gson();
         this.telemetryBuffer = new CopyOnWriteArrayList<>();
-        this.telemetryEnabled = !SKEW_API_KEY.isEmpty();
+        this.telemetryEnabled = !langmesh_API_KEY.isEmpty();
         this.scheduler = Executors.newScheduledThreadPool(1);
 
         if (telemetryEnabled) {
@@ -142,9 +142,9 @@ public class OpenAiService extends com.theokanning.openai.service.OpenAiService 
                 String json = gson.toJson(Map.of("events", batch));
                 
                 Request request = new Request.Builder()
-                        .url(SKEW_TELEMETRY_ENDPOINT)
+                        .url(langmesh_TELEMETRY_ENDPOINT)
                         .post(RequestBody.create(json, MediaType.parse("application/json")))
-                        .addHeader("Authorization", "Bearer " + SKEW_API_KEY)
+                        .addHeader("Authorization", "Bearer " + langmesh_API_KEY)
                         .build();
 
                 try (Response response = httpClient.newCall(request).execute()) {
